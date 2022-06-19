@@ -1,46 +1,43 @@
-# Getting Started with Create React App
+# husky-and-npm-outdated
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- This project is a basic create-react-app.
+- It was created with node v16.15.1 and npm v8.11.0.
 
-## Available Scripts
+___
+## What does it do?
 
-In the project directory, you can run:
+Not a lot.  But it demonstrates a little hack I find useful.
 
-### `npm start`
+Using a husky post-commit hook, `npm-outdated` is run on every commit.  
+- As a _post_ commit hook, it does not prevent the commit, it is strictly for information purposes.
+- It simply prints the results of [npm outdated](https://docs.npmjs.com/cli/v8/commands/npm-outdated) to your console, alerting you of any dependencies which you should update, or research.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Mui and its peer dependencies have been installed.  At the time of this repo's creation, the latest version of `@mui/x-date-pickers` was 5.0.0-alpha.6.  But 5.0.0-alpha.4 was intentionally installed to illustrate the script.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+___
+## How to set it up in any project
 
-### `npm test`
+1. Follow the [installation instructions](https://typicode.github.io/husky/#/?id=usage) for Husky.  'Automatic' is super easy.
+1. Add a script to your package.json file (name it whatever you like):
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+   ```json
+   "checkDependencies": "npm outdated"
+   ```
+1. Add a post commit hook ([docs](https://typicode.github.io/husky/#/?id=create-a-hook)) to run the script:
 
-### `npm run build`
+   ```bash
+   npx husky add .husky/post-commit "npm run checkDependencies"
+   ```
+1. When you make a commit, you should see the expected output of your script. For example:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+   ![screenshot](./npm_outdated_output.png)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+That's it.  Low tech, yes.  Low effort, oh yes.  If you don't already have a tool in place, this can be a great reminder to you or your team to keep things as current as possible. 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Running Locally
 
-### `npm run eject`
+There's not much to see here, but if you want:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
+npm i && npm start
+```
